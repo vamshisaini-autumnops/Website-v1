@@ -1,0 +1,11 @@
+import {build} from 'esbuild';
+import {mkdir,readFile,writeFile,cp,rm} from 'node:fs/promises';
+await rm('dist',{recursive:true,force:true});
+await mkdir('dist/assets',{recursive:true});
+await build({entryPoints:['src/main.tsx'],bundle:true,minify:true,format:'esm',target:['es2022'],outfile:'dist/assets/main.js',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'}});
+await build({entryPoints:['src/prerender.tsx'],bundle:true,platform:'node',packages:'external',format:'esm',outfile:'.build/ssr/prerender.js',jsx:'automatic'});
+await cp('public','dist',{recursive:true});
+const template=(await readFile('index.html','utf8')).replace('<script type="module" src="/src/main.tsx"></script>','<script type="module" src="/assets/main.js"></script>').replace('</head>','<link rel="stylesheet" href="/assets/main.css"/></head>');
+await writeFile('dist/index.html',template);
+await import('./postbuild.mjs');
+console.log('Built React assets and prerendered Home, About, and 404 pages.');
