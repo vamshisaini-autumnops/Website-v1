@@ -1,5 +1,3 @@
-import React from 'react';
-
 function MiniIcon({kind}:{kind:'document'|'store'|'box'|'check'|'arrow'}){
  const paths={document:'M14 3H5v18h14V8z M14 3v5h5 M8 12h8 M8 16h6',store:'M4 10v11h16V10 M3 10l2-7h14l2 7 M3 10h18 M9 21v-7h6v7',box:'m12 3 9 5-9 5-9-5z M3 8v9l9 5 9-5V8 M12 13v9',check:'m5 12 4 4L19 6',arrow:'M4 12h16 M14 6l6 6-6 6'};
  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[kind]}/></svg>;
